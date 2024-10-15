@@ -33,7 +33,7 @@ The **adult** zombie hitbox is the same as the player meaning it's an accurate r
 
 ### Movement
 
-We leverage the ability to reference the player's input controls without the usage of external packet libraries such as `ProtocolLib` by referencing the `xxa` and `zza` values in the `Player` class of NMS. Afterwards we can retrieve the vector for forward movement using the direction of the player and the vector for sideways movement, the cross product of the forward movement with the down vector.
+We leverage the ability to reference the player's input controls without the usage of external packet libraries such as `ProtocolLib` by referencing the `xxa` and `zza` values in the `Player` class of NMS. Afterwards we can retrieve the vector for forward movement using the direction of the player (not the head direction) and the vector for sideways movement, the cross product of the forward movement with the down vector.
 
 <p align="center"><img src="assets/diagram.png" alt="Cross Product Diagram"></p>
 
