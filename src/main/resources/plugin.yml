@@ -1,0 +1,4 @@
+name: Brooms
+version: '1.0-SNAPSHOT'
+main: io.github.helloandrewyan.brooms.Brooms
+api-version: '1.18'
