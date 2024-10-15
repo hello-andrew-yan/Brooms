@@ -67,5 +67,5 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <p align="right">
-  <a target="_blank" href="https://icons8.com/icons/set/broom">Broom</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+  <a target="_blank" href="https://icons8.com/icon/8068/broom">Broom</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 </p>
