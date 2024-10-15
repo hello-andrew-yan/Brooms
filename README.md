@@ -20,17 +20,38 @@
 ---
 
 ## Implementation
-Currently the plugin mounts you to a `BroomEntity` on `LEFT CLICK` and dies on `DISMOUNT`.
+Currently the plugin mounts you to a `BroomEntity` on `LEFT CLICK` and dies on `DISMOUNT`. Once mounted, you can use the standard movement controls when riding a `Horse` to fly in the air.
 
-We will be using the ``Zombie`` class to represent the broom:
-- The **adult** zombie hitbox is the same as the player meaning it's an accurate representation of where the player can and cannot go. This becomes especially important when we discuss **dismounting**.
-- Specifically any entity that can equip an item in the helmet slot. This allows us to incorporate custom models to the flying broom entity.
-
-(While we may try to manually modify the hitbox ourselves, I'd rather avoid the client and server communicating with conflicting information)
-
-- The velocity of the broom utilises the lerp function to interpolate between different speed values.
-- The velocity of the directional controls is clamped to prevent diagonal movement from being faster than both forward and sideways movement.
+- The speed of the broom utilises the lerp function to interpolate between different speed values.
+- Directional controls are clamped to prevent diagonal movement from being faster than both forward and sideways movement.
 - The velocity of the broom carries over to the rider once dismounted.
+
+### Entity
+We will be using the ``Zombie`` class to represent the broom, moreso any entity that can equip an item in the helmet slot. This allows us to incorporate custom models to the flying broom entity.
+
+The **adult** zombie hitbox is the same as the player meaning it's an accurate representation of where the player can and cannot go. This becomes especially important when we discuss **dismounting**. While we may try to manually modify the hitbox ourselves, I'd rather avoid the client and server communicating with conflicting information.
+
+### Movement
+
+We leverage the ability to reference the player's input controls without the usage of external packet libraries such as `ProtocolLib` by referencing the `xxa` and `zza` values in the `Player` class of NMS. Afterwards we can retrieve the vector for forward movement using the direction of the player and the vector for sideways movement, the cross product of the forward movement with the down vector.
+
+<p align="center"><img src="assets/diagram.png" alt="Cross Product Diagram"></p>
+
+```java
+
+double xSpeedMultiplier = 1.2;
+double zSpeedMultiplier = 0.7;
+
+...
+
+x = lerp(x, player.xxa != 0 ? player.xxa : 0, LERP_FACTOR);
+z = lerp(z, player.zza != 0 ? player.zza : 0, LERP_FACTOR);
+
+Vector forward = player.getBukkitEntity().getLocation().getDirection();
+Vector sideways = forward.clone().crossProduct(new Vector(0, -1, 0));
+Vector move = forward.multiply(z * zSpeedMultiplier).add(sideways.multiply(x * xSpeedMultiplier));
+```
+
 
 ## To-Do List
 - Refactor and implement the ability to boost the brooms speed. With the health bar of the entity serving as the broom meter.
